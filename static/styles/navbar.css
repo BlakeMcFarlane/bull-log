@@ -1,0 +1,31 @@
+.container{
+    margin:0;
+    padding:0;
+    height:fit-content;
+    width:100%;
+    
+}
+.navbar-container {
+    background-color: rgb(222, 222, 222);
+    height:80px;
+    margin:0;
+    padding:0
+}
+
+.navbar-contents {
+    display: flex;
+    padding-left:5%;
+    padding-right:5%;
+    justify-content: space-between;
+
+}
+.navbar-logo {
+    width:20%;
+}
+.navbar-content {
+    width:30%;
+    display: flex;
+    margin:0;
+    padding:0;
+    justify-content: space-between;
+}

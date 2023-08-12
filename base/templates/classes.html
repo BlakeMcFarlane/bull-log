@@ -1,0 +1,16 @@
+{% extends 'main.html' %}
+
+{% block results %}
+<h1> RESULTS </h1>
+<hr>
+
+{% for class in classes %}
+    <h3>{{class.title}}</h3>
+    <p>{{class.subj}} | {{class.crse}} | {{class.availability}} | {{class.id}} </p>
+    <p>seats: {{class.seats}} | available: {{class.seats_avail}}</p>
+    <hr>
+{% endfor %}
+
+<h2>{{url}}</h2>
+
+{% endblock %}
