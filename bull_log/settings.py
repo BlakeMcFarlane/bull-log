@@ -1,5 +1,6 @@
 from pathlib import Path
 import os
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,7 +27,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'base'
+    'base',
+
+    'django_celery_results',
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -118,6 +122,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Celery Configurations
-CELERY_BROKER_URL = 'amqp://localhost:5672'
-CELERY_RESULT_BACKEND = 'amqp://localhost:5672'
+
+
+# Celery configurations
+
+CELERY_BROKER_URL = 'amqp://blake:673565bm@localhost:5672//'
+CELERY_RESULT_BACKEND = 'django-db'                                             #Use RabbitMQ for results
+CELERY_TASK_RESULT_EXPIRES = 300                                                #deleting tasks lasting more than 10 minutes
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'

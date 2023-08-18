@@ -1,16 +1,75 @@
 {% extends 'main.html' %}
+{% load static %}    
 
-{% block results %}
-<h1> RESULTS </h1>
-<hr>
 
-{% for class in classes %}
-    <h3>{{class.title}}</h3>
-    <p>{{class.subj}} | {{class.crse}} | {{class.availability}} | {{class.id}} </p>
-    <p>seats: {{class.seats}} | available: {{class.seats_avail}}</p>
+
+
+<html>
+    <head>
+        <title>Bull Log</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    </head>
+    <body>
+    {% block results %}
+    <h1> RESULTS </h1>
     <hr>
-{% endfor %}
+    <a href="https://my.usf.edu/myusf/home_myusf/index">REGISTER</a>
+    
+    {% for class in classes %}
+    
+        <h3>{{class.title}}</h3>
+        <p>{{class.subj}} | {{class.crse}} | {{class.availability}} | {{class.class_id}} </p>
+        <b>seats: {{class.seats}} | available: {{class.seats_avail}}</b>
+        {% if class.title in saved_courses %}
+            <button>Tracking</button>
+        {% else %}
+            <button type='submit' class="bookmark-course" data-subject="{{ class.subj }}" data-crse="{{ class.crse }}" data-status="{{ class.availability }}" data-title="{{ class.title }}" data-id="{{ class.class_id }}" data-seats="{{ class.seats }}" data-seats_available="{{ class.seats_avail }}" data-term="{{ term }}">Save</button>
+        {% endif %}
+        <hr>
+    
+    {% endfor %}
+    
+    <script type="text/javascript">
+    $(document).ready(function(){
+        $(document).on("click", ".bookmark-course", function () {
+            var button = $(this);
+            var subject = button.data("subject");
+            var crse = button.data("crse");
+            var status = button.data("status");
+            var title = button.data("title");
+            var class_id = button.data("id");
+            var seats = button.data("seats");
+            var seats_available = button.data("seats_available");
+            var term = button.data("term");
 
-<h2>{{url}}</h2>
+            button.text("Tracking")
 
-{% endblock %}
+            $.ajax({
+                url: "{% url 'save_course' %}",
+                method: "POST",
+                data: {
+                    'subj': subject,
+                    'crse': crse,
+                    'status': status,
+                    'title': title,
+                    'class_id': class_id,
+                    'seats': seats,
+                    'seats_available': seats_available,
+                    'term':term,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+
+                success: function () {
+                    alert("Class saved!");
+                },
+                error: function () {
+                    alert("An error occurred.");
+                }
+            });
+        });
+    });
+    </script>
+    
+    {% endblock %}
+    </body>
+</html>

@@ -1,0 +1,18 @@
+{% extends 'navbar.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div> 
+    <h1> Tracked Classes </h1>
+    <hr>
+    {% for course in courses %}
+        <h3>{{ course }} | {{ course.subject }} {{ course.course_number }} | {{ course.availability }}  </h3>
+        <h3>Available seats: {{ course.seats_avail }}/{{ course.seats }}</h3>
+        <hr>
+    {% endfor %}
+
+</div>
+
+{% endblock %}
